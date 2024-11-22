@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Date of Birth</title>
+</head>
+<body>
+    <form method="post" action="dob.php">
+        <fieldset style="width: 500px;">
+            <legend><b>Date of Birth</b></legend>
+
+            <label for="day">dd</label>
+            <input type="number" name="day" id="day" min="1" max="31"  />
+
+            <label for="month">mm</label>
+            <input type="number" name="month" id="month" min="1" max="12"  />
+
+            <label for="year">yyyy</label>
+            <input type="number" name="year" id="year" min="1900" max="2100"  />
+            <hr>
+            <input type="submit" name="submit" value="Submit">
+        </fieldset>    
+    </form>
+</body>
+</html>
