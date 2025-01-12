@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Portal</title>
+</head>
+<body>
+    <h1>Employer Portal</h1>
+
+    <!-- Create Employer -->
+    <h3>Create Employer</h3>
+    <input type="text" id="createEmployerName" placeholder="Enter Employer Name">
+    <input type="text" id="createCompanyName" placeholder="Enter Company Name">
+    <input type="text" id="createContactNo" placeholder="Enter Contact Number">
+    <input type="text" id="createUsername" placeholder="Enter Username">
+    <input type="password" id="createPassword" placeholder="Enter Password">
+    <button onclick="createEmployer()">Create</button>
+    <br><br>
+
+    <!-- Search Employers -->
+    <h3>Search Employers</h3>
+    <input type="text" id="searchEmployer" placeholder="Search Employers">
+    <button onclick="searchEmployers()">Search</button>
+    <div id="searchResult"></div>
+    <br><br>
+
+    <!-- Fetch All Employers -->
+    <h3>Fetch All Employers</h3>
+    <button onclick="readEmployers()">Fetch All Employers</button>
+    <div id="readResult"></div>
+    <br><br>
+
+    <!-- Update Employer -->
+    <h3>Update Employer</h3>
+    <input type="number" id="updateId" placeholder="Enter Employer ID">
+    <input type="text" id="updateEmployerName" placeholder="Enter New Employer Name">
+    <input type="text" id="updateCompanyName" placeholder="Enter New Company Name">
+    <input type="text" id="updateContactNo" placeholder="Enter New Contact Number">
+    <input type="text" id="updateUsername" placeholder="Enter New Username">
+    <input type="password" id="updatePassword" placeholder="Enter New Password">
+    <button onclick="updateEmployer()">Update</button>
+    <br><br>
+
+    <!-- Delete Employer -->
+    <h3>Delete Employer</h3>
+    <input type="number" id="deleteId" placeholder="Enter Employer ID">
+    <button onclick="deleteEmployer()">Delete</button>
+    <br><br>
+
+    <script>
+        // Create Employer
+        function createEmployer() {
+            const employerName = document.getElementById('createEmployerName').value;
+            const companyName = document.getElementById('createCompanyName').value;
+            const contactNo = document.getElementById('createContactNo').value;
+            const username = document.getElementById('createUsername').value;
+            const password = document.getElementById('createPassword').value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'controllers/crud.php', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(`action=create&employer_name=${employerName}&company_name=${companyName}&contact_no=${contactNo}&username=${username}&password=${password}`);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    alert(this.responseText);
+                    readEmployers();  // Refresh the list after creating
+                }
+            };
+        }
+
+        // Read Employers (Fetch All)
+        function readEmployers() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'controllers/crud.php', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send('action=read');
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('readResult').innerHTML = this.responseText;
+                }
+            };
+        }
+
+        // Search Employers
+        function searchEmployers() {
+            const query = document.getElementById('searchEmployer').value;
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'controllers/crud.php', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(`action=search&query=${query}`);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('searchResult').innerHTML = this.responseText;
+                }
+            };
+        }
+
+        // Update Employer
+        function updateEmployer() {
+            const id = document.getElementById('updateId').value;
+            const employerName = document.getElementById('updateEmployerName').value;
+            const companyName = document.getElementById('updateCompanyName').value;
+            const contactNo = document.getElementById('updateContactNo').value;
+            const username = document.getElementById('updateUsername').value;
+            const password = document.getElementById('updatePassword').value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'controllers/crud.php', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(`action=update&id=${id}&employer_name=${employerName}&company_name=${companyName}&contact_no=${contactNo}&username=${username}&password=${password}`);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    alert(this.responseText);
+                    readEmployers();  // Refresh the list after updating
+                }
+            };
+        }
+
+        // Delete Employer
+        function deleteEmployer() {
+            const id = document.getElementById('deleteId').value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'controllers/crud.php', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(`action=delete&id=${id}`);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    alert(this.responseText);
+                    readEmployers();  // Refresh the list after deleting
+                }
+            };
+        }
+    </script>
+</body>
+</html>
